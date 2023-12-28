@@ -11,6 +11,8 @@ import {
     FormControl,
     IconButton,
     Input,
+    Select,
+    SelectItem,
 } from "@app/components/v2";
 import {
     useOrganization,
@@ -32,6 +34,10 @@ const schema = yup.object({
     accessTokenMaxTTL: yup
         .string()
         .required("Access Max Token TTL is required"),
+    accessTokenRefreshType: yup
+        .mixed<"default" | "periodic">()
+        .oneOf(["default", "periodic"])
+        .required("Access Token Refresh Type is required"),
     accessTokenNumUsesLimit: yup
         .string()
         .required("Access Token Max Number of Uses is required"),
@@ -90,6 +96,7 @@ export const IdentityUniversalAuthForm = ({
         defaultValues: {
             accessTokenTTL: "2592000",
             accessTokenMaxTTL: "2592000",
+            accessTokenRefreshType: "default",
             accessTokenNumUsesLimit: "0",
             clientSecretTrustedIps: [{
                 ipAddress: "0.0.0.0/0"
@@ -117,6 +124,7 @@ export const IdentityUniversalAuthForm = ({
                 accessTokenTTL: String(data.accessTokenTTL),
                 accessTokenMaxTTL: String(data.accessTokenMaxTTL),
                 accessTokenNumUsesLimit: String(data.accessTokenNumUsesLimit),
+                accessTokenRefreshType: data.accessTokenRefreshType,
                 clientSecretTrustedIps: data.clientSecretTrustedIps.map(({ 
                     ipAddress, 
                     prefix 
@@ -138,6 +146,7 @@ export const IdentityUniversalAuthForm = ({
             reset({
                 accessTokenTTL: "2592000",
                 accessTokenMaxTTL: "2592000",
+                accessTokenRefreshType: "default",
                 accessTokenNumUsesLimit: "0",
                 clientSecretTrustedIps: [{
                     ipAddress: "0.0.0.0/0"
@@ -152,6 +161,7 @@ export const IdentityUniversalAuthForm = ({
     const onFormSubmit = async ({
         accessTokenTTL,
         accessTokenMaxTTL,
+        accessTokenRefreshType,
         accessTokenNumUsesLimit,
         clientSecretTrustedIps,
         accessTokenTrustedIps
@@ -168,6 +178,7 @@ export const IdentityUniversalAuthForm = ({
                     clientSecretTrustedIps,
                     accessTokenTTL: Number(accessTokenTTL),
                     accessTokenMaxTTL: Number(accessTokenMaxTTL),
+                    accessTokenRefreshType,
                     accessTokenNumUsesLimit: Number(accessTokenNumUsesLimit),
                     accessTokenTrustedIps,
                 });
@@ -181,6 +192,7 @@ export const IdentityUniversalAuthForm = ({
                     clientSecretTrustedIps,
                     accessTokenTTL: Number(accessTokenTTL),
                     accessTokenMaxTTL: Number(accessTokenMaxTTL),
+                    accessTokenRefreshType,
                     accessTokenNumUsesLimit: Number(accessTokenNumUsesLimit),
                     accessTokenTrustedIps,
                 });
@@ -246,6 +258,27 @@ export const IdentityUniversalAuthForm = ({
                         min="1"
                         step="1"
                     />
+                    </FormControl>
+                )}
+            />
+            <Controller
+                control={control}
+                defaultValue="default"
+                name="accessTokenRefreshType"
+                render={({ field: { onChange, ...field }, fieldState: { error } }) => (
+                    <FormControl
+                        label="Access Token Refresh Type"
+                        isError={Boolean(error)}
+                        errorText={error?.message}
+                    >
+                        <Select
+                            defaultValue={field.value}
+                            {...field}
+                            onValueChange={(value) => onChange(value)}
+                        >
+                            <SelectItem value="default">Default</SelectItem>
+                            <SelectItem value="periodic">Periodic</SelectItem>
+                        </Select>
                     </FormControl>
                 )}
             />

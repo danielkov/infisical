@@ -11,7 +11,7 @@ export interface IIdentityAccessToken extends Document {
     accessTokenNumUses: number;
     accessTokenNumUsesLimit: number;
     accessTokenTTL: number;
-    accessTokenMaxTTL: number;
+    accessTokenMaxTTL: number | null;
     accessTokenTrustedIps: Array<IIdentityTrustedIp>;
     isAccessTokenRevoked: boolean;
     updatedAt: Date;

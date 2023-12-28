@@ -243,6 +243,14 @@ func (tm *TokenManager) GetToken() string {
 	return tm.accessToken
 }
 
+func getMaxTTL(accessTokenTTL int, accessTokenMaxTTL *int) time.Duration {
+	if accessTokenMaxTTL == nil {
+		return time.Duration(accessTokenTTL * int(time.Second))
+	}
+
+	return time.Duration(*accessTokenMaxTTL * int(time.Second))
+}
+
 // Fetches a new access token using client credentials
 func (tm *TokenManager) FetchNewAccessToken() error {
 	clientIDAsByte, err := ReadFile(tm.clientIdPath)
@@ -276,7 +284,8 @@ func (tm *TokenManager) FetchNewAccessToken() error {
 	}
 
 	accessTokenTTL := time.Duration(loginResponse.AccessTokenTTL * int(time.Second))
-	accessTokenMaxTTL := time.Duration(loginResponse.AccessTokenMaxTTL * int(time.Second))
+	// if max ttl is not set, set it to the same as ttl - this enables periodic refresh token
+	accessTokenMaxTTL := getMaxTTL(loginResponse.AccessTokenTTL, loginResponse.AccessTokenMaxTTL)
 
 	if accessTokenTTL <= time.Duration(5)*time.Second {
 		util.PrintErrorMessageAndExit("At this this, agent does not support refresh of tokens with 5 seconds or less ttl. Please increase access token ttl and try again")
@@ -302,7 +311,7 @@ func (tm *TokenManager) RefreshAccessToken() error {
 	}
 
 	accessTokenTTL := time.Duration(response.AccessTokenTTL * int(time.Second))
-	accessTokenMaxTTL := time.Duration(response.AccessTokenMaxTTL * int(time.Second))
+	accessTokenMaxTTL := getMaxTTL(response.AccessTokenTTL, response.AccessTokenMaxTTL)
 	tm.accessTokenRefreshedTime = time.Now()
 
 	tm.SetToken(response.AccessToken, accessTokenTTL, accessTokenMaxTTL)

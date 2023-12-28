@@ -472,7 +472,7 @@ type UniversalAuthLoginResponse struct {
 	AccessToken       string `json:"accessToken"`
 	AccessTokenTTL    int    `json:"expiresIn"`
 	TokenType         string `json:"tokenType"`
-	AccessTokenMaxTTL int    `json:"accessTokenMaxTTL"`
+	AccessTokenMaxTTL *int   `json:"accessTokenMaxTTL"`
 }
 
 type UniversalAuthRefreshRequest struct {
@@ -483,7 +483,7 @@ type UniversalAuthRefreshResponse struct {
 	AccessToken       string `json:"accessToken"`
 	AccessTokenTTL    int    `json:"expiresIn"`
 	TokenType         string `json:"tokenType"`
-	AccessTokenMaxTTL int    `json:"accessTokenMaxTTL"`
+	AccessTokenMaxTTL *int   `json:"accessTokenMaxTTL"`
 }
 
 type GetRawSecretsV3Request struct {

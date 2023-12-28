@@ -234,6 +234,7 @@ interface AddIdentityUniversalAuthEvent {
     clientSecretTrustedIps: Array<IdentityTrustedIp>;
     accessTokenTTL: number;
     accessTokenMaxTTL: number;
+    accessTokenRefreshType: string;
     accessTokenNumUsesLimit: number;
     accessTokenTrustedIps: Array<IdentityTrustedIp>;
   };
@@ -246,6 +247,7 @@ interface UpdateIdentityUniversalAuthEvent {
     clientSecretTrustedIps?: Array<IdentityTrustedIp>;
     accessTokenTTL?: number;
     accessTokenMaxTTL?: number;
+    accessTokenRefreshType?: string;
     accessTokenNumUsesLimit?: number;
     accessTokenTrustedIps?: Array<IdentityTrustedIp>;
   };

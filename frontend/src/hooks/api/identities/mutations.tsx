@@ -77,6 +77,7 @@ export const useAddIdentityUniversalAuth = () => {
             clientSecretTrustedIps,
             accessTokenTTL,
             accessTokenMaxTTL,
+            accessTokenRefreshType,
             accessTokenNumUsesLimit,
             accessTokenTrustedIps,
         }) => {
@@ -85,6 +86,7 @@ export const useAddIdentityUniversalAuth = () => {
                     clientSecretTrustedIps,
                     accessTokenTTL,
                     accessTokenMaxTTL,
+                    accessTokenRefreshType,
                     accessTokenNumUsesLimit,
                     accessTokenTrustedIps,
                 }
@@ -105,6 +107,7 @@ export const useUpdateIdentityUniversalAuth = () => {
             clientSecretTrustedIps,
             accessTokenTTL,
             accessTokenMaxTTL,
+            accessTokenRefreshType,
             accessTokenNumUsesLimit,
             accessTokenTrustedIps,
         }) => {
@@ -113,6 +116,7 @@ export const useUpdateIdentityUniversalAuth = () => {
                     clientSecretTrustedIps,
                     accessTokenTTL,
                     accessTokenMaxTTL,
+                    accessTokenRefreshType,
                     accessTokenNumUsesLimit,
                     accessTokenTrustedIps,
                 }

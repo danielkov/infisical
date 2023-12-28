@@ -54,12 +54,15 @@ export type DeleteIdentityDTO = {
     organizationId: string;
 }
 
+export type IdentityUniversalAccessTokenRefreshType = "default" | "periodic";
+
 export type IdentityUniversalAuth = {
     identityId: string;
     clientId: string;
     clientSecretTrustedIps: IdentityTrustedIp[];
     accessTokenTTL: number;
     accessTokenMaxTTL: number;
+    accessTokenRefreshType: IdentityUniversalAccessTokenRefreshType;
     accessTokenNumUsesLimit: number;
     accessTokenTrustedIps: IdentityTrustedIp[];
 }
@@ -72,6 +75,7 @@ export type AddIdentityUniversalAuthDTO = {
     }[];
     accessTokenTTL: number;
     accessTokenMaxTTL: number;
+    accessTokenRefreshType: IdentityUniversalAccessTokenRefreshType;
     accessTokenNumUsesLimit: number;
     accessTokenTrustedIps: {
         ipAddress: string;
@@ -86,6 +90,7 @@ export type UpdateIdentityUniversalAuthDTO = {
     }[];
     accessTokenTTL?: number;
     accessTokenMaxTTL?: number;
+    accessTokenRefreshType?: IdentityUniversalAccessTokenRefreshType;
     accessTokenNumUsesLimit?: number;
     accessTokenTrustedIps?: {
         ipAddress: string;

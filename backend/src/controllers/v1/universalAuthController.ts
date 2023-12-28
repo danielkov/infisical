@@ -13,6 +13,7 @@ import {
     IdentityMembershipOrg,
     IdentityUniversalAuth,
     IdentityUniversalAuthClientSecret,
+    identityAccessTokenRefreshType,
 } from "../../models";
 import { createToken } from "../../helpers/auth";
 import { AuthTokenType } from "../../variables";
@@ -95,6 +96,10 @@ export const renewAccessToken = async (req: Request, res: Response) => {
                                 "type": "number",
                                 "description": "TTL of access token in seconds"
                             },
+                            "accessTokenMaxTTL": {
+                                "type": "number",
+                                "description": "Max TTL of access token in seconds"
+                            },
                             "tokenType": {
                                 "type": "string",
                                 "description": "Type of access token (e.g. Bearer)"
@@ -162,8 +167,10 @@ export const renewAccessToken = async (req: Request, res: Response) => {
         }
     }
 
-    // max ttl checks
-    if (accessTokenMaxTTL > 0) {
+    const isPeriodicRefresh = accessTokenMaxTTL === null;
+
+    // max ttl checks - skip if periodic refresh
+    if (!isPeriodicRefresh && accessTokenMaxTTL > 0) {
         const accessTokenCreated = new Date(accessTokenCreatedAt);
         const ttlInMilliseconds = accessTokenMaxTTL * 1000;
         const currentDate = new Date();
@@ -348,13 +355,17 @@ export const loginIdentityUniversalAuth = async (req: Request, res: Response) =>
             }
         );
 
+    const isPeriodicRefresh = identityUniversalAuth.accessTokenRefreshType === identityAccessTokenRefreshType.PERIODIC;
+
+    const accessTokenMaxTTL = isPeriodicRefresh ? null : identityUniversalAuth.accessTokenMaxTTL;
+
     const identityAccessToken = await new IdentityAccessToken({
         identity: identityUniversalAuth.identity,
         identityUniversalAuthClientSecret: validatedClientSecretDatum._id,
         accessTokenNumUses: 0,
         accessTokenNumUsesLimit: identityUniversalAuth.accessTokenNumUsesLimit,
         accessTokenTTL: identityUniversalAuth.accessTokenTTL,
-        accessTokenMaxTTL: identityUniversalAuth.accessTokenMaxTTL,
+        accessTokenMaxTTL,
         accessTokenTrustedIps: identityUniversalAuth.accessTokenTrustedIps,
         isAccessTokenRevoked: false
     }).save();
@@ -510,6 +521,7 @@ export const attachIdentityUniversalAuth = async (req: Request, res: Response) =
             clientSecretTrustedIps,
             accessTokenTTL,
             accessTokenMaxTTL,
+            accessTokenRefreshType,
             accessTokenNumUsesLimit,
             accessTokenTrustedIps,
         }
@@ -583,6 +595,7 @@ export const attachIdentityUniversalAuth = async (req: Request, res: Response) =
         clientSecretTrustedIps: reformattedClientSecretTrustedIps,
         accessTokenTTL,
         accessTokenMaxTTL,
+        accessTokenRefreshType,
         accessTokenNumUsesLimit,
         accessTokenTrustedIps: reformattedAccessTokenTrustedIps,
     }).save();
@@ -603,6 +616,7 @@ export const attachIdentityUniversalAuth = async (req: Request, res: Response) =
                 clientSecretTrustedIps: reformattedClientSecretTrustedIps as Array<IIdentityTrustedIp>,
                 accessTokenTTL,
                 accessTokenMaxTTL,
+                accessTokenRefreshType,
                 accessTokenNumUsesLimit,
                 accessTokenTrustedIps: reformattedAccessTokenTrustedIps as Array<IIdentityTrustedIp>
             }
@@ -712,6 +726,7 @@ export const updateIdentityUniversalAuth = async (req: Request, res: Response) =
             clientSecretTrustedIps,
             accessTokenTTL, // TODO: validate this and max TTL
             accessTokenMaxTTL,
+            accessTokenRefreshType,
             accessTokenNumUsesLimit,
             accessTokenTrustedIps,
         }
@@ -789,6 +804,7 @@ export const updateIdentityUniversalAuth = async (req: Request, res: Response) =
             clientSecretTrustedIps: reformattedClientSecretTrustedIps,
             accessTokenTTL,
             accessTokenMaxTTL,
+            accessTokenRefreshType,
             accessTokenNumUsesLimit,
             accessTokenTrustedIps: reformattedAccessTokenTrustedIps,
         },
@@ -806,6 +822,7 @@ export const updateIdentityUniversalAuth = async (req: Request, res: Response) =
                 clientSecretTrustedIps: reformattedClientSecretTrustedIps as Array<IIdentityTrustedIp>,
                 accessTokenTTL,
                 accessTokenMaxTTL,
+                accessTokenRefreshType,
                 accessTokenNumUsesLimit,
                 accessTokenTrustedIps: reformattedAccessTokenTrustedIps as Array<IIdentityTrustedIp>
             }

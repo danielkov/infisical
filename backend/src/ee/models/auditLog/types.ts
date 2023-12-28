@@ -1,5 +1,5 @@
 import { ActorType, EventType } from "./enums";
-import { IIdentityTrustedIp } from "../../../models";
+import { IIdentityTrustedIp, IdentityAccessTokenRefreshType } from "../../../models";
 
 interface UserActorMetadata {
   userId: string;
@@ -261,6 +261,7 @@ interface AddIdentityUniversalAuthEvent {
     clientSecretTrustedIps: Array<IIdentityTrustedIp>;
     accessTokenTTL: number;
     accessTokenMaxTTL: number;
+    accessTokenRefreshType: IdentityAccessTokenRefreshType;
     accessTokenNumUsesLimit: number;
     accessTokenTrustedIps: Array<IIdentityTrustedIp>;
   };
@@ -273,6 +274,7 @@ interface UpdateIdentityUniversalAuthEvent {
     clientSecretTrustedIps?: Array<IIdentityTrustedIp>;
     accessTokenTTL?: number;
     accessTokenMaxTTL?: number;
+    accessTokenRefreshType?: IdentityAccessTokenRefreshType;
     accessTokenNumUsesLimit?: number;
     accessTokenTrustedIps?: Array<IIdentityTrustedIp>;
   };

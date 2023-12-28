@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
 import { IIdentity, IdentityAccessToken } from "../../../models";
-import { getAuthSecret } from "../../../config";
 import { AuthTokenType } from "../../../variables";
 import { UnauthorizedRequestError } from "../../errors";
 import { checkIPAgainstBlocklist } from "../../../utils/ip";
+import { getAuthSecret } from "../../../config";
+import jwt from "jsonwebtoken";
 
 interface ValidateIdentityParams {
     authTokenValue: string;
@@ -68,7 +68,7 @@ export const validateIdentity = async ({
 	}
 	
 	// max ttl check
-    if (accessTokenMaxTTL > 0) {
+    if (accessTokenMaxTTL && accessTokenMaxTTL > 0) {
         const accessTokenCreated = new Date(accessTokenCreatedAt);
         const ttlInMilliseconds = accessTokenMaxTTL * 1000;
         const currentDate = new Date();
