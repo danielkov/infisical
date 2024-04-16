@@ -180,7 +180,8 @@
       "secrets": "Secrets",
       "members": "Membres",
       "integrations": "Intégrations",
-      "project-settings": "Paramètres du Projet"
+      "project-settings": "Paramètres du Projet",
+      "secret-sharing": "Partage de Secrets"
     }
   },
   "section": {

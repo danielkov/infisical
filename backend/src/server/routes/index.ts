@@ -134,6 +134,8 @@ import { registerSecretScannerGhApp } from "../plugins/secret-scanner";
 import { registerV1Routes } from "./v1";
 import { registerV2Routes } from "./v2";
 import { registerV3Routes } from "./v3";
+import { secretSharingDALFactory } from "@app/services/secret-sharing/secret-sharing-dal";
+import { secretSharingServiceFactory } from "@app/services/secret-sharing/secret-sharing-service";
 
 export const registerRoutes = async (
   server: FastifyZodProvider,
@@ -221,6 +223,8 @@ export const registerRoutes = async (
   const licenseDAL = licenseDALFactory(db);
   const dynamicSecretDAL = dynamicSecretDALFactory(db);
   const dynamicSecretLeaseDAL = dynamicSecretLeaseDALFactory(db);
+
+  const secretSharingDAL = secretSharingDALFactory(db);
 
   const permissionService = permissionServiceFactory({
     permissionDAL,
@@ -648,6 +652,10 @@ export const registerRoutes = async (
     licenseService
   });
 
+  const secretSharingService = secretSharingServiceFactory({
+    secretSharingDAL
+  });
+
   await superAdminService.initServerCfg();
   //
   // setup the communication with license key server
@@ -704,7 +712,8 @@ export const registerRoutes = async (
     secretBlindIndex: secretBlindIndexService,
     telemetry: telemetryService,
     projectUserAdditionalPrivilege: projectUserAdditionalPrivilegeService,
-    identityProjectAdditionalPrivilege: identityProjectAdditionalPrivilegeService
+    identityProjectAdditionalPrivilege: identityProjectAdditionalPrivilegeService,
+    secretSharing: secretSharingService
   });
 
   server.decorate<FastifyZodProvider["store"]>("store", {

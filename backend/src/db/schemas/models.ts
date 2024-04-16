@@ -69,7 +69,9 @@ export enum TableName {
   DynamicSecretLease = "dynamic_secret_leases",
   // junction tables with tags
   JnSecretTag = "secret_tag_junction",
-  SecretVersionTag = "secret_version_tag_junction"
+  SecretVersionTag = "secret_version_tag_junction",
+  // secret sharing
+  SharedSecrets = "shared_secrets"
 }
 
 export type TImmutableDBKeys = "id" | "createdAt" | "updatedAt";

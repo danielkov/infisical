@@ -188,7 +188,8 @@
       "secrets": "Secrets",
       "members": "Members",
       "integrations": "Integrations",
-      "project-settings": "Project Settings"
+      "project-settings": "Project Settings",
+      "secret-sharing": "Secret Sharing"
     }
   },
   "section": {
@@ -340,5 +341,26 @@
   "admin": {
     "signup-title": "Admin Sign Up",
     "dashboard": "Admin Dashboard"
+  },
+  "secret-sharing": {
+    "title": "Secret Sharing",
+    "description": "Share secrets in a secure way.",
+    "no-shared-secrets": "No shared secrets found.",
+    "add-secret": "Add Secret",
+    "add-form": {
+      "title": "Add a shared secret",
+      "description": "Specify the name and value of the secret and a password to encrypt it with. Share the URL and password with the person you want to share the secret with.",
+      "value": "Secret Value",
+      "password": "Password",
+      "expires-at": "Expiry",
+      "single-use": "Single Use",
+      "single-use-description": "Expires after it is viewed once.",
+      "submit": "Add Secret",
+      "success": "Secret added successfully",
+      "success-description": "The secret has been added successfully. Share the URL and password with the person you want to share the secret with. For added security, you should share the password through a different channel.",
+      "add-another": "Add Another",
+      "copy-link": "Copy Link",
+      "link-copied": "Link copied to clipboard"
+    }
   }
 }

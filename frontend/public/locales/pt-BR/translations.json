@@ -175,7 +175,8 @@
       "secrets": "Segredos",
       "members": "Membros",
       "integrations": "Integrações",
-      "project-settings": "Configurações do Projeto"
+      "project-settings": "Configurações do Projeto",
+      "secret-sharing": "Compartilhamento de Segredos"
     }
   },
   "section": {

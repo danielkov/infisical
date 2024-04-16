@@ -147,7 +147,8 @@
       "secrets": "시크릿",
       "members": "맴버",
       "integrations": "연동",
-      "project-settings": "프로젝트 설정"
+      "project-settings": "프로젝트 설정",
+      "secret-sharing": "시크릿 공유"
     }
   },
   "section": {
