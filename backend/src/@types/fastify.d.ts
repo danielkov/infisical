@@ -52,6 +52,7 @@ import { TTelemetryServiceFactory } from "@app/services/telemetry/telemetry-serv
 import { TUserDALFactory } from "@app/services/user/user-dal";
 import { TUserServiceFactory } from "@app/services/user/user-service";
 import { TWebhookServiceFactory } from "@app/services/webhook/webhook-service";
+import { TSecretSharingServiceFactory } from "@app/services/secret-sharing/secret-sharing-service";
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -129,6 +130,7 @@ declare module "fastify" {
       dynamicSecretLease: TDynamicSecretLeaseServiceFactory;
       projectUserAdditionalPrivilege: TProjectUserAdditionalPrivilegeServiceFactory;
       identityProjectAdditionalPrivilege: TIdentityProjectAdditionalPrivilegeServiceFactory;
+      secretSharing: TSecretSharingServiceFactory;
     };
     // this is exclusive use for middlewares in which we need to inject data
     // everywhere else access using service layer
